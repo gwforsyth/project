@@ -1,2 +1,13 @@
-Details on how to create a statement
+Details on how to create a table
+
+
+CREATE TABLE data (
+samples varchar(20) not null,
+tissue varchar(50) not null,
+cell_type varchar(40) not null
+ );
+describe data;
+LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data
+IGNORE 1 LINES
+(samples, tissue, cell_type);
 
