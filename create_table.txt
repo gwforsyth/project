@@ -1,0 +1,35 @@
+# Details on how to create a table
+
+CREATE TABLE data5 (
+gene_title  VARCHAR(50) NOT NULL,
+gene_symbol tissue VARCHAR(50) NOT NULL,
+gene_id VARCHAR(50) NOT NULL, 
+unigene_title, 
+unigene_symbol,
+UniGene_ID,
+Nucleotide_title,
+GI,
+genbanl_accession,
+platform_cloneid,
+platform_orf,
+platform_spotid,
+chromosome_location,
+chromosome_annotation,
+GO:Function,
+GO:Process,
+GO:Component,
+GO:Function_id, 
+GO:Process_id, 
+GO:Component_id
+);
+describe data;
+LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data5 
+IGNORE 1 LINES 
+(@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
+@dummy, gene_title, gene_symbol, gene_id);
+
