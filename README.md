@@ -26,3 +26,18 @@ IGNORE 1 LINES
 
 I am sure there is an easier way to do this, but for
 now it will do!
+
+#30.01.14
+So over the last few days a lot has happened. In my definitions repository I
+now have files including  my GEO data, a python script to preprocess the data 
+and a file containg processed data for the samples table. The python script 
+is "the easier way to insert the data into my table".  Still got a few tweaks to 
+make to it.  For the samples table the data was modified in a text editor,
+since its content didn't come from the GEO table but the GEO script. 
+I don't really know how I did it, but I made a mistake at somepoint whilst 
+trying to upload data to git.  I managed to have copies of all my files in 
+my project rep and my definitions rep.  The other thing I managed to do was 
+create another definitions rep within the original definitions rep. I believe
+these issue may have had something to do with me adding everything whilst in
+the wrong directory... maybe?? Seem to have got everything tidied up now and 
+will need to be more careful with adding things in future.
