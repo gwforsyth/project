@@ -5,7 +5,7 @@ infile="GDS4467.txt"  #storing the GDS4467.txt string in the variable infile
 fh = open(infile) #uses the variable infle as the argument in the open function, and stores the resulting file object in the variable fh
 
 line = fh.readline() #reads the data on the variable fh line by line and stores the resulting string in the variable line
-while line[:167] != "!dataset_table_begin": 
+while line[:20] != "!dataset_table_begin": 
     line=fh.readline()
 
 header= fh.readline().strip()#removes whitespaces
