@@ -4,7 +4,7 @@ import MySQLdb
 
 class DBHandler(): #database handler class
 	connection=None
-	dbname='mydatabase' #class level variables
+	dbname='gwforsyth' #class level variables
 	dbuser='gwforsyth'
 	dbpassword='4F4Fj33A'
 	
@@ -15,19 +15,19 @@ class DBHandler(): #database handler class
 	def cursor(self):
 		return DBHandler.connection.cursor() #make database run each time
 
-	class Gene(): #define class gene
-		gene_id=''
-		gene_symbol=''
-		gene_title=''
+class Gene(): #define class gene
+	gene_id=''
+	gene_symbol=''
+	gene_title=''
 		
-		probelist=[] #find out what this means
+	probelist=[] #each gene has many probes
 	
 	def __init__(self,gene_id):
-		self.gene_id=gene_id
 		db=DBHandler()
-		cursor=db.cursor() #link to database
+		self.gene_id=gene_id
+		cursor=db.cursor()
 		sql='select gene_symbol, gene_title from gene where gene_id =%s' #pull out data about gene
-		cursor.execute(sql,(gene_id))
+		cursor.execute(sql,(gene_id,))
 		#query database
 		#get result and populate the class fields
 		result=cursor.fetchone()
@@ -35,22 +35,26 @@ class DBHandler(): #database handler class
 		self.gene_title =result[1]
 		
 		#now fetch the  probes..
-		probesql='select probe_id from probe where gene_id=%s'
-		cursor.execute(probesql,(geneid))
-		result=cursor.fetchone()
-		self.probe_id =result[2]
+		probesql='select probe_id from probes where gene_id=%s'
+		cursor.execute(probesql,(gene_id,))
+		#resultlist=cursor.fetchall()
 
 		for result in cursor.fetchall():
 			self.probelist.append(result[0])
 	
-	#def get_expression(self)
-class Probe():
-		probe_id=''
-		gene_id=''	
-	
-	class Samples(): 
-		sample_id=''
-		cell_type=''
-		tissue=''
-
-	class Gene_expression():
+	def get_expression(self,sample_id):
+		'''retrieves a list of all expression values for this gene for the specified experiment
+expr list = egen.get_expression('GSM12345')
+'''	
+		db=DBHandler()
+		cursor=db.cursor()
+		sql='select gene_expression from gene_expression where probe_id=%s and sample_id=%s'
+		exvals=[]
+		for p in self.probelist:
+			try:
+				cursor.execute(sql,(p,sample_id,))	
+				exvals.append(cursor.fetchone()[0])
+			except Exception,e:
+				raise Exception('Error occured retrieving gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
+		return exvals
+ 
