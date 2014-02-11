@@ -2,13 +2,14 @@
 
 import MySQLdb
 
-class DBHandler(): #database handler class
+class DBHandler(): 
 	connection=None
-	dbname='gwforsyth' #class level variables
+	dbname='gwforsyth' 
 	dbuser='gwforsyth'
 	dbpassword='4F4Fj33A'
 	
-	def __init__(self): #initialisation
+	def __init__(self): 
+		'''initialisation of database'''
 		if DBHandler.connection == None: #test to see if connection has been defined
 			DBHandler.connection = MySQLdb.connect(db=DBHandler.dbname, user=DBHandler.dbuser, passwd=DBHandler.dbpassword)
 
@@ -23,6 +24,7 @@ class Gene(): #define class gene
 	probelist=[] #each gene has many probes
 	
 	def __init__(self,gene_id):
+		'''retrieves the gene symbol and gene title for the gene then a list of the probe id's'''
 		db=DBHandler()
 		self.gene_id=gene_id
 		cursor=db.cursor()
@@ -43,9 +45,7 @@ class Gene(): #define class gene
 			self.probelist.append(result[0])
 	
 	def get_expression(self,sample_id):
-		'''retrieves a list of all expression values for this gene for the specified experiment
-expr list = egen.get_expression('GSM12345')
-'''	
+		'''retrieves a list of all expression values for this gene for the specified experiment expr list = egen.get_expression('GSM12345')'''	
 		db=DBHandler()
 		cursor=db.cursor()
 		sql='select gene_expression from gene_expression where probe_id=%s and sample_id=%s'
@@ -57,4 +57,21 @@ expr list = egen.get_expression('GSM12345')
 			except Exception,e:
 				raise Exception('Error occured retrieving gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
 		return exvals
+
+class Samples():
+	sample_id=''
+	cell_type=''
+	gene_title=''
+
+	def __init__(self,sample_id):
+		'''retrieves the cell type and tissue for the gene for the specified experiment'''
+		db=DBHandler()
+		cursor=db.cursor()
+		cellsql='select cell_type, tissue from samples where sample_id=%s'
+		cursor.execute(cellsql,(sample_id,))
+		result=cursor.fetchone()
+		self.cell_type =result[0]
+		self.tissue =result[1]
+		
+
  
