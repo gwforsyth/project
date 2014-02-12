@@ -57,6 +57,20 @@ class Gene(): #define class gene
 			except Exception,e:
 				raise Exception('Error occured retrieving gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
 		return exvals
+		
+		#now find the average
+from __future__ import division			
+	def get_average_expression(self, sample_id):
+		db=DBHandler()
+		cursor=db.cursor()		
+		total=sum(exvals)
+		length=len(exvals)
+		average=total/length
+		return average
+
+		
+
+			
 
 class Samples():
 	sample_id=''
