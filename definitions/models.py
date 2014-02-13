@@ -1,3 +1,4 @@
+from __future__ import division
 '''Classes to represent our gene expression objects'''
 
 import MySQLdb
@@ -58,24 +59,21 @@ class Gene(): #define class gene
 				raise Exception('Error occured retrieving gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
 		return exvals
 		
-		#now find the average
-from __future__ import division			
-	def get_average_expression(self, sample_id):
-		db=DBHandler()
-		cursor=db.cursor()		
-		total=sum(exvals)
-		length=len(exvals)
-		average=total/length
+		#now find the average	
+		average=[]
+		calcaverage='sum(%s)/len(%s)'
+		for ex in exvals:
+			try:
+				cursor.execute(calcaverage,(ex,))
+				average.append(cursor.fetchone()[0])
+			except Exception, e:
+				raise Exception('Error occured calculating the average expression for exvals %s'%(ex,e))		
 		return average
-
-		
-
-			
 
 class Samples():
 	sample_id=''
 	cell_type=''
-	gene_title=''
+	tissue=''
 
 	def __init__(self,sample_id):
 		'''retrieves the cell type and tissue for the gene for the specified experiment'''
@@ -86,6 +84,32 @@ class Samples():
 		result=cursor.fetchone()
 		self.cell_type =result[0]
 		self.tissue =result[1]
-		
 
- 
+class cell():
+	cell_type=''
+	sample_id=''
+
+	experiments=[]
+
+	def __init__(self,cell_type):
+		'''retrieves the sample id's for the specified cell type'''
+		db=DBHandler()
+		cursor=db.cursor()
+		sql='select sample_id from samples where cell_type=%s'
+		cursor.execute(sql,(cell_type,))
+		for result in cursor.fetchall():
+			self.experiments.append(result[0])
+
+ 	def get_expression(self, cell_type):
+		'''retrieves the highest expression value for this cell type'''	
+		db=DBHandler()
+		cursor=db.cursor()
+		sql='select gene_expression from gene_expression where sample_id=%s order by gene_expression desc limit 1'
+		exval=[]
+		for ex in self.experiments:
+			try:
+				cursor.execute(sql,(ex,))	
+				exval.append(cursor.fetchone()[0])
+			except Exception,e:
+				raise Exception('Error occured retrieving highest gene_expression for cell_type %s and sample_id %s:%s'%(cell_type,ex,e))
+		return exval
