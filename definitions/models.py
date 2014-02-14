@@ -113,3 +113,17 @@ class cell():
 			except Exception,e:
 				raise Exception('Error occured retrieving highest gene_expression for cell_type %s and sample_id %s:%s'%(cell_type,ex,e))
 		return exval
+
+	def get_probe(self, gene_expression):
+		'''retrieves the probes for this cell type which had the highest expression'''
+		db=DBHandler()		
+		cursor=db.cursor()
+		sql='select probe_id from gene_expression where sample_id=%s and gene_expression=%s'
+		probes=[]
+		for ex in self.experiments:
+			try:
+				cursor.execute(sql,(ex,gene_expression))	
+				probes.append(cursor.fetchall()[0])
+			except Exception,e:
+				raise Exception('Error occured retrieving the probes for sample_id %s and gene_expression %s:%s'%(ex, gene_expression,e))
+		return probe
