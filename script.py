@@ -18,13 +18,4 @@ print"</body></html>"
 add query stuff here
 
 
-#for webpage???
-<form id=myform name=myform method=post action=cgi/script.py>
-	<table>
-	<tr><td>Gene:</td>
-	<td><input type=text size=20 name=title value='first query'/></td></tr>
-	<td><textarea rows=5 col=40 name=description>write a description here</textarea></td></tr>
-	<tr><td></td><td><input type=submit name=submit value='Do something' /></td></tr>
-	</table>
-</form>
 
