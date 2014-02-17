@@ -87,7 +87,6 @@ class Samples():
 
 class cell():
 	cell_type=''
-	sample_id=''
 
 	experiments=[]
 
@@ -105,26 +104,29 @@ class cell():
 		'''retrieves expression value for this cell type'''	
 		db=DBHandler()
 		cursor=db.cursor()
-		sql='select gene_expression from gene_expression where sample_id=%s and cell_type=%s'
+		sql='select gene_expression from gene_expression where sample_id=%s'
 		exval=[]
 		for ex in self.experiments:
 			try:
-				cursor.execute(sql,(ex,cell_type,))	
+				cursor.execute(sql,(ex,))	
 				exval.append(cursor.fetchone()[0])
 			except Exception,e:
-				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(cell_type,ex,e))
+				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(self.cell_type,ex,e))
 		return exval
 
-	def get_probe(self, gene_expression):
-		'''retrieves the probes for this cell type which had the highest expression'''
+	#would like to add in a function to calculate the average of these expression values for comparison purposes
+
+	def get_info(self, gene_expression):
+		'''retrieves the gene and probe information for this cell type in the specified experiment'''
 		db=DBHandler()		
 		cursor=db.cursor()
-		sql='select probe_id from gene_expression where sample_id=%s and gene_expression=%s'
-		probes=[]
+		sql='select g.gene_id, gene_title, gene_symbol, p.probe_id from gene_expression e inner join probes p on e.probe_id=p.probe_id inner join gene g on g.gene_id=p.gene_id inner join samples s on s.sample_id=e.sample_id where gene_expression=%s and s.sample_id=%s'
+		gene_info=[]
 		for ex in self.experiments:
 			try:
-				cursor.execute(sql,(ex,gene_expression,))	
-				probes.append(cursor.fetchone()[0])
+				cursor.execute(sql,(gene_expression,ex,))	
+				gene_info.append(cursor.fetchall())
 			except Exception,e:
-				raise Exception('Error occured retrieving the probes for sample_id %s and gene_expression %s:%s'%(ex, gene_expression,e))
-		return probes
+				raise Exception('Error occured retrieving the gene and probe information for sample_id %s and gene_expression %s:%s'%(ex,gene_expression,e))
+		return gene_info
+
