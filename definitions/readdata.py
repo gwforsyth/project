@@ -21,7 +21,7 @@ for title in header.split('\t'):
 
 
 
-#open our output files, one per table.
+#open our output files for writing, one per table.
 genefile=open('genes.txt', 'w')
 expressionfile=open('expression.txt','w')
 probefile=open('probes.txt', 'w')
@@ -31,12 +31,14 @@ samples=header.split('\t')[2:int(colnames['Gene title'])]
 probefields=['ID_REF','Gene ID']
 
 def buildrow(row, fields):
+'''creating a structure for the data'''
     newrow=[]
     for f in fields:
         newrow.append(row[int(colnames[f])])
     return "\t".join(newrow)+"\n"
 
 def build_expression(row, samples):
+'''add comment in here!'''
     exprrows=[]
     for s in samples:
         newrow=[s,]
@@ -56,6 +58,7 @@ for line in fh.readlines():
 	rows=rows+1
     except:
 	pass
+#closing the files
 genefile.close()
 probefile.close()
 expressionfile.close()
