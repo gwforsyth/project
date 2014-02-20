@@ -90,7 +90,7 @@ class cell():
 			self.experiments.append(result[0])
 
  	def get_expression(self, sample_id):
-		'''retrieves expression value for this cell type'''	
+		'''retrieves expression values for this cell type'''	
 		db=DBHandler()
 		cursor=db.cursor()
 		sql='select gene_expression from gene_expression where sample_id=%s'
@@ -103,7 +103,20 @@ class cell():
 				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(self.cell_type,ex,e))
 		return exval
 
-	#would like to add in a function to calculate the average of these expression values for comparison purposes
+	def  get__average_expression(self,sample_id):
+		'''retrieves a list of the average expression values for this cell type'''	
+		db=DBHandler()
+		cursor=db.cursor()
+		sql='select sum(gene_expression)/count(gene_expression) from gene_expression where sample_id=%s'
+		exvals=[]
+		for ex in self.experiments:
+			try:
+				cursor.execute(sql,(ex,))	
+				exvals.append(cursor.fetchone()[0])
+			except Exception,e:
+				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(self.cell_type,ex,e))
+		return exvals
+	
 
 	def get_info(self, gene_expression):
 		'''retrieves the gene and probe information for this cell type in the specified experiment'''
