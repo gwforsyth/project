@@ -8,13 +8,9 @@ first 37 columns contained data I wasn't interested in.
 However all original attempts at loading the dataset 
 into the table weren't successful.  I wanted to insert
 columns 38-41 into my table but columns 1-3 inserted instead. 
-
-#Original command: 
-LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data5 
+Original command: LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data5 
 IGNORE 1 LINES (gene_title, gene_symbol, gene_id);
-
-#Working command: 
-LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data5 
+Working command: LOAD DATA LOCAL INFILE 'GDS4467' INTO TABLE data5 
 IGNORE 1 LINES 
 (@dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
 @dummy, @dummy, @dummy, @dummy, @dummy, @dummy, 
@@ -41,3 +37,23 @@ create another definitions rep within the original definitions rep. I believe
 these issue may have had something to do with me adding everything whilst in
 the wrong directory... maybe?? Seem to have got everything tidied up now and 
 will need to be more careful with adding things in future.
+
+#31.01.14 
+yesterday I forgot to upload the files which were produced from the python script which preprocessed the dataset data.
+
+#03.02.14
+Just uploaded a script which contains the commands to create python classes.  This script was based on a script which Dr Martin had written to which I changed to fit my data. 
+There is only one class in the script so far; the gene class
+
+#04.02.14
+Since I have a virtual machine set up on my laptop I can work on my project at home. To save recreating all the tables in MySQL again, a file was created which contained all the necessary information using the command mysqldump
+
+#11.02.14 
+Have now added a samples and a cell class to the models script. Within the samples and gene class the expression values are found and the average calculated.
+
+#14.02.14
+Have started to write a webpage script to where users will be able to query the models script.
+
+#18.02.14
+The webpage now a an query box which links to the cgi script but an error is returned.  Will leave it at that so project report can be written
+
