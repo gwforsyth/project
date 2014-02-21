@@ -2,9 +2,7 @@
 <html>
       	<head>
               	<title>Bioinformatics Project</title>
-		<style>
-			h1{color #00FF00, font-size: 200%}
-		</style>
+		<link rel="stylesheet" type="text/css" href="style.css">
         </head>
         <body>
               	<h1> Bioinformatics project </h1>
@@ -12,7 +10,7 @@
 	<h4> This section is an example of one of the queries which was computed</h4>
 	<form  method=POST action=cgi-bin/script.py>
         <table><tr>
-        	<td>select gene_id from Gene:</td>
+        	<td>select gene ID from Gene:</td>
         	<td><input type=text name=query></td>
         	<td><input type="submit" value="submit"></td>
         </tr></table>
