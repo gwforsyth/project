@@ -1,6 +1,6 @@
 #21.01.14 
 Created a new repository called project.
-Found a dataset on GEO with the title Primary and Seconday brain tumours: giloblastomas, astrocytomas and oligodendrogliomas.  The dataset contains 35 samples. 
+Found a dataset on GEO with the title Primary and Seconday brain tumours: giloblastomas, astrocytomas and oligodendrogliomas.  The dataset contains 35 samples. The data is saved under the file called GDS4467.txt.
 
 #23.01.14
 Finally created a table! In the dataset the 
@@ -25,11 +25,10 @@ now it will do!
 
 #30.01.14
 So over the last few days a lot has happened. In my definitions repository I
-now have files including  my GEO data, a python script to preprocess the data 
-and a file containg processed data for the samples table. The python script 
+now have files including  my GEO data, a python script (readdata.py) to preprocess the data and a file containg processed data for the samples table. The python script 
 is "the easier way to insert the data into my table".  Still got a few tweaks to 
 make to it.  For the samples table the data was modified in a text editor,
-since its content didn't come from the GEO table but the GEO script. 
+since its content didn't come from the GEO table but the GEO script.  The sample data was saved in the samples.txt
 I don't really know how I did it, but I made a mistake at somepoint whilst 
 trying to upload data to git.  I managed to have copies of all my files in 
 my project rep and my definitions rep.  The other thing I managed to do was 
@@ -39,21 +38,21 @@ the wrong directory... maybe?? Seem to have got everything tidied up now and
 will need to be more careful with adding things in future.
 
 #31.01.14 
-yesterday I forgot to upload the files which were produced from the python script which preprocessed the dataset data.
+yesterday I forgot to upload the files which were produced from the python script which preprocessed the dataset data. these are the genes.txt, expression.txt and probes.txt.
 
 #03.02.14
-Just uploaded a script which contains the commands to create python classes.  This script was based on a script which Dr Martin had written to which I changed to fit my data. 
+Just uploaded a script (models.py) which contains the commands to create python classes.  This script was based on a script which Dr Martin had written to which I changed to fit my data. 
 There is only one class in the script so far; the gene class
 
 #04.02.14
-Since I have a virtual machine set up on my laptop I can work on my project at home. To save recreating all the tables in MySQL again, a file was created which contained all the necessary information using the command mysqldump
+Since I have a virtual machine set up on my laptop I can work on my project at home. To save recreating all the tables in MySQL again, a file (mysql.txt) was created which contained all the necessary information using the command mysqldump
 
 #11.02.14 
 Have now added a samples and a cell class to the models script. Within the samples and gene class the expression values are found and the average calculated.
 
 #14.02.14
-Have started to write a webpage script to where users will be able to query the models script.
+Have started to write a webpage script(webpage_script.txt) where users will be able to query the models script.
 
 #18.02.14
-The webpage now a an query box which links to the cgi script but an error is returned.  Will leave it at that so project report can be written
+The webpage now a an query box which links to the cgi script (script.py) but an error is returned.  Will leave it at that so project report can be written
 
