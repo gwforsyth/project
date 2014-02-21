@@ -56,3 +56,5 @@ Have started to write a webpage script(webpage_script.txt) where users will be a
 #18.02.14
 The webpage now a an query box which links to the cgi script (script.py) but an error is returned.  Will leave it at that so project report can be written
 
+#21.02.14 
+style.css is a basic style script to make the webpage look prettier
