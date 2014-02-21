@@ -45,19 +45,28 @@ class Gene(): #define class gene
 		for result in cursor.fetchall():
 			self.probelist.append(result[0])
 	
-	def  get__average_expression(self,sample_id):
+	def get_expression(self,sample_id):
 		'''retrieves a list of all expression values for this gene for the specified experiment expr list = egen.get_expression('GSM12345')'''	
 		db=DBHandler()
 		cursor=db.cursor()
-		sql='select sum(gene_expression)/count(gene_expression) from gene_expression where probe_id=%s and sample_id=%s'
+		sql='select gene_expression from gene_expression where probe_id=%s and sample_id=%s'
 		exvals=[]
 		for p in self.probelist:
 			try:
 				cursor.execute(sql,(p,sample_id,))	
 				exvals.append(cursor.fetchone()[0])
 			except Exception,e:
-				raise Exception('Error occured retrieving average gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
+				raise Exception('Error occured retrieving gene_expression data for probe_id %s and sample_id %s:%s'%(p,sample_id,e))
 		return exvals
+
+	def get_average(self,sample_id):
+		'''retrieves the average gene expression value'''
+		db=DBHandler()
+		cursor=db.cursor()
+		sql='select sum(gene_expression)/count(gene_expression)as average from gene_expression e inner join probes p on e.probe_id=p.probe_id inner join gene g on g.gene_id=p.gene_id inner join samples s on s.sample_id=e.sample_id where g.gene_id=%s and s.sample_id=%s'
+		cursor.execute(sql,(self.gene_id,sample_id,))
+		result=cursor.fetchone()
+		print result 
 
 class Samples():
 	sample_id=''
@@ -76,7 +85,6 @@ class Samples():
 
 class cell():
 	cell_type=''
-
 	experiments=[]
 
 	def __init__(self,cell_type):
@@ -103,19 +111,14 @@ class cell():
 				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(self.cell_type,ex,e))
 		return exval
 
-	def  get__average_expression(self,sample_id):
-		'''retrieves a list of the average expression values for this cell type'''	
+	def get_average(self,sample_id):
+		'''retrieves the average gene expression value'''
 		db=DBHandler()
 		cursor=db.cursor()
-		sql='select sum(gene_expression)/count(gene_expression) from gene_expression where sample_id=%s'
-		exvals=[]
-		for ex in self.experiments:
-			try:
-				cursor.execute(sql,(ex,))	
-				exvals.append(cursor.fetchone()[0])
-			except Exception,e:
-				raise Exception('Error occured retrieving gene_expression for cell_type %s and sample_id %s:%s'%(self.cell_type,ex,e))
-		return exvals
+		sql='select sum(gene_expression)/count(gene_expression)as average from gene_expression e inner join probes p on e.probe_id=p.probe_id inner join gene g on g.gene_id=p.gene_id inner join samples s on s.sample_id=e.sample_id where cell_type=%s and s.sample_id=%s'
+		cursor.execute(sql,(self.cell_type,sample_id,))
+		result=cursor.fetchone()
+		print result 
 	
 
 	def get_info(self, gene_expression):
@@ -128,8 +131,7 @@ class cell():
 			try:
 				cursor.execute(sql,(gene_expression,ex,))
 				result=cursor.fetchall()
-				if result>0:	
-					gene_info.append(result)
+				if result !='':gene_info.append(result)
 			except Exception,e:
 				raise Exception('Error occured retrieving the gene and probe information for sample_id %s and gene_expression %s:%s'%(ex,gene_expression,e))
 		return gene_info
