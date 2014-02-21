@@ -3,7 +3,7 @@ import cgi
 import cgitb
 import os
 from mod.python import apache
-directory=os.path.dirname(__file__)
+directory=os.path.dirname(__models.py__)
 models = apache.import_module('modules', path=[directory])
 cgitb.enable()
 
