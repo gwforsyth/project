@@ -8,7 +8,7 @@ line = fh.readline() #reads the data on the variable fh line by line and stores 
 while line[:20] != "!dataset_table_begin": 
     line=fh.readline()
 
-header= fh.readline().strip()#removes whitespaces
+header= fh.readline().strip()#defines the header as the lines without blank spaces
 
 colnames={} #creating a dictionary of the columns
 
@@ -20,25 +20,24 @@ for title in header.split('\t'):
     index=index+1
 
 
-
 #open our output files for writing, one per table.
 genefile=open('genes.txt', 'w')
 expressionfile=open('expression.txt','w')
 probefile=open('probes.txt', 'w')
-
+#assigning the correct fields that corresond to the columns in the tables
 genefields=['Gene ID', 'Gene symbol', 'Gene title']
 samples=header.split('\t')[2:int(colnames['Gene title'])]
 probefields=['ID_REF','Gene ID']
 
 def buildrow(row, fields):
-'''creating a structure for the data'''
+    '''creating new rows for the datafields'''
     newrow=[]
     for f in fields:
         newrow.append(row[int(colnames[f])])
     return "\t".join(newrow)+"\n"
 
 def build_expression(row, samples):
-'''add comment in here!'''
+    '''adds the data from the datasets into the text files'''
     exprrows=[]
     for s in samples:
         newrow=[s,]
@@ -63,5 +62,6 @@ genefile.close()
 probefile.close()
 expressionfile.close()
 
+#printing a messaage of rows processed
 print '%s rows processed'%rows
     
