@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
       	<head>
-              	<title>project</title>
+              	<title>Bioinformatics Project</title>
+		<style>
+			h1{color #00FF00, font-size: 200%}
+		</style>
         </head>
         <body>
-              	<h1> My project </h1>
-                home page for project
+              	<h1> Bioinformatics project </h1>
+                The BS32011 module was a practical module where bioinformatics skills were learnt. This involved learning how to use python and MySQL databases. Part of the project was to create a database which could be queried using certain commands. 
+	<h4> This section is an example of one of the queries which was computed</h4>
 	<form  method=POST action=cgi-bin/script.py>
         <table><tr>
         	<td>select gene_id from Gene:</td>
