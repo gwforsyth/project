@@ -1,7 +1,10 @@
 #!usr/local/bin/python
 import cgi
 import cgitb
-import models
+import os
+from mod.python import apache
+directory=os.path.dirname(__file__)
+models = apache.import_module('modules', path=[directory])
 cgitb.enable()
 
 form = cgi.FieldStorage()
